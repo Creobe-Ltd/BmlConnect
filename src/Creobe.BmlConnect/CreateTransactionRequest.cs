@@ -5,5 +5,5 @@ public sealed record CreateTransactionRequest(
     string Currency,
     string CustomerReference,
     string LocalId,
-    string Provider,
+    string? Provider = null,
     string? RedirectUrl = null);

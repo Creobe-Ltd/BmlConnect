@@ -47,6 +47,7 @@ public sealed class BmlConnectClient
             };
 
             var response = await _httpClient.PostAsJsonAsync("transactions", transaction);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<Transaction>(_serailizerOptions);
         }
         catch (Exception ex)
