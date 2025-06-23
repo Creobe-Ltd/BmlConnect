@@ -5,5 +5,7 @@ public sealed record CreateTransactionRequest(
     string Currency,
     string CustomerReference,
     string LocalId,
+    string? SignMethod = "sha1",
+    string? Signature = null,
     string? Provider = null,
     string? RedirectUrl = null);

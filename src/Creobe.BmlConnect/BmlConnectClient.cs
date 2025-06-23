@@ -25,7 +25,7 @@ public sealed class BmlConnectClient
         };
     }
 
-    public async Task<Transaction?> CreateTransactionAsync(CreateTransactionRequest request, string? signature = null)
+    public async Task<Transaction?> CreateTransactionAsync(CreateTransactionRequest request)
     {
         try
         {
@@ -39,11 +39,11 @@ public sealed class BmlConnectClient
                 LocalId = request.LocalId,
                 Provider = request.Provider,
                 RedirectUrl = request.RedirectUrl,
-                SignMethod = "sha1",
+                SignMethod = request.SignMethod ?? "sha1",
                 DeviceId = _options.AppId,
                 AppVersion = _options.AppVersion,
                 ApiVersion = _options.ApiVersion,
-                Signature = signature ?? CreateSha1Signature(normalizedAmount, request.Currency),
+                Signature = request.Signature ?? CreateSha1Signature(normalizedAmount, request.Currency),
             };
 
             var response = await _httpClient.PostAsJsonAsync("transactions", transaction);
@@ -55,11 +55,17 @@ public sealed class BmlConnectClient
             throw new Exception("Failed to create transaction", ex);
         }
     }
+    
+    public string CreateSha1Signature(decimal amount, string currency)
+    {
+        var normalizedAmount = (int)Math.Round(amount * 100);
+        return CreateSha1Signature(normalizedAmount, currency);
+    }
 
     public string CreateSha1Signature(int amount, string currency)
     {
         var signature = $"amount={amount}&currency={currency}&apiKey={_options.ApiKey}";
-        
+
         byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(signature);
         byte[] hashBytes = SHA1.HashData(inputBytes);
 
