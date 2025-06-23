@@ -25,7 +25,7 @@ public sealed class BmlConnectClient
         };
     }
 
-    public async Task<Transaction?> CreateTransactionAsync(CreateTransactionRequest request)
+    public async Task<Transaction?> CreateTransactionAsync(CreateTransactionRequest request, string? signature = null)
     {
         try
         {
@@ -43,7 +43,7 @@ public sealed class BmlConnectClient
                 DeviceId = _options.AppId,
                 AppVersion = _options.AppVersion,
                 ApiVersion = _options.ApiVersion,
-                Signature = GetSignature(normalizedAmount, request.Currency),
+                Signature = signature ?? CreateSha1Signature(normalizedAmount, request.Currency),
             };
 
             var response = await _httpClient.PostAsJsonAsync("transactions", transaction);
@@ -56,7 +56,7 @@ public sealed class BmlConnectClient
         }
     }
 
-    private string GetSignature(int amount, string currency)
+    public string CreateSha1Signature(int amount, string currency)
     {
         var signature = $"amount={amount}&currency={currency}&apiKey={_options.ApiKey}";
         
