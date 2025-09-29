@@ -2,8 +2,8 @@ namespace Creobe.BmlConnect;
 
 public sealed record Transaction
 {
-    public DateTime? Created { get; set; }
-    public DateTime? Expires { get; set; }
+    public DateTimeOffset? Created { get; set; }
+    public DateTimeOffset? Expires { get; set; }
     public int? Amount { get; set; }
     public object? QrCode { get; set; }
     public string? SignMethod { get; set; }

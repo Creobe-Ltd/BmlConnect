@@ -44,6 +44,7 @@ public sealed class BmlConnectClient
                 AppVersion = _options.AppVersion,
                 ApiVersion = _options.ApiVersion,
                 Signature = request.Signature ?? CreateSha1Signature(normalizedAmount, request.Currency),
+                Expires = request.Expiry
             };
 
             var response = await _httpClient.PostAsJsonAsync("transactions", transaction);

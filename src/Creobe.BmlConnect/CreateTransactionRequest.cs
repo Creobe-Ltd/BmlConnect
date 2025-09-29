@@ -8,4 +8,5 @@ public sealed record CreateTransactionRequest(
     string? SignMethod = "sha1",
     string? Signature = null,
     string? Provider = null,
-    string? RedirectUrl = null);
+    string? RedirectUrl = null,
+    DateTimeOffset? Expiry = null);
