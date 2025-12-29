@@ -57,6 +57,20 @@ public sealed class BmlConnectClient
         }
     }
     
+    public async Task<Transaction?> GetTransactionAsync(string transactionId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"transactions/{transactionId}");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<Transaction>(_serailizerOptions);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to get transaction", ex);
+        }
+    }
+    
     public string CreateSha1Signature(decimal amount, string currency)
     {
         var normalizedAmount = (int)Math.Round(amount * 100);

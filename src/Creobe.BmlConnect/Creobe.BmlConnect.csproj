@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageId>Creobe.BmlConnect</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>Musab Shareef</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/Creobe-Ltd/BmlConnect</RepositoryUrl>
